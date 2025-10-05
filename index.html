@@ -1,1 +1,27 @@
-# Pedido-Verduras25
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get('id'); // obtiene el ID del QR
+
+// Tu Web App URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxDercCs6shzYtcTtGB_rCzqEF5kBaJbhlrnSgpJXh5jev03kq2tWZ7O47mw_bwldk/exec";
+
+if (id) {
+  fetch(`${WEB_APP_URL}?id=${id}`)
+    .then(response => response.json())
+    .then(lote => {
+      document.getElementById("info").innerHTML = `
+        <p><strong>ID:</strong> ${lote.ID}</p>
+        <p><strong>Producto:</strong> ${lote.Producto}</p>
+        <p><strong>Tienda:</strong> ${lote.Tienda}</p>
+        <p><strong>Cantidad Pedida:</strong> ${lote.CantidadPedida}</p>
+        <p><strong>Horas Transcurridas:</strong> ${lote.HorasTranscurridas}</p>
+        <p><strong>Estado:</strong> ${lote.Estado}</p>
+      `;
+    })
+    .catch(() => document.getElementById("info").innerText = "Lote no encontrado");
+} else {
+  document.getElementById("info").innerText = "No se proporcionó ID de lote";
+}
+</script>
+
+<div id="info"></div>
